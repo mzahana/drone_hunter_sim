@@ -52,7 +52,7 @@
             <arg name="mavlink_udp_port" value="14560"/>
             <arg name="mavlink_tcp_port" value="4560"/>
             <arg name="ID" value="$(arg ID)"/>
-            <arg name="drone_color" value="DarkGrey"/>
+            <arg name="drone_color" value="Gazebo/DarkGrey"/>
         </include>
         <!-- MAVROS -->
         <include file="$(find drone_hunter_sim)/launch/mavros.launch">
@@ -89,7 +89,7 @@
             <arg name="mavlink_udp_port" value="14561"/>
             <arg name="mavlink_tcp_port" value="4561"/>
             <arg name="ID" value="$(arg ID)"/>
-            <arg name="drone_color" value="Red"/>
+            <arg name="drone_color" value="Gazebo/Red"/>
         </include>
         <!-- MAVROS -->
         <include file="$(find drone_hunter_sim)/launch/mavros.launch">

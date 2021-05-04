@@ -1,3 +1,4 @@
+
 plugin_blacklist:
 # common
 - safety_area
@@ -7,7 +8,7 @@ plugin_blacklist:
 - distance_sensor
 - rangefinder
 - wheel_odometry
-
+- odom
 
 plugin_whitelist: []
 #- 'sys_*'
