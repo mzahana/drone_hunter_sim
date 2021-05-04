@@ -1,0 +1,12 @@
+<launch>
+
+    <include file="$(find drone_hunter_sim)/launch/basic_sim.launch"/>
+
+    <group ns="uav0">
+        <!-- Drone detection algorithm -->
+        <include file="$(find drone_hunter_perception)/launch/drone_detector.launch"/>
+
+        <!-- KF tracker -->
+        <include file="$(find drone_hunter_perception)/launch/kf_tracker.launch"/>
+    </group>
+</launch>
