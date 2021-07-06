@@ -5,22 +5,20 @@
 
 echo "Setting up the simulation environment of the autonomous drone hunter project..."
 
-SUDO_PASS=$1
-GIT_TOKEN=$2
 
 # For coloring terminal output
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+# RED='\033[0;31m'
+# NC='\033[0m' # No Color
 
-if [ -z "${SUDO_PASS}" ]; then
-    echo -e "${RED} Please enter the sudo passwrod as the 1st arg of this script ${NC}" && echo
-    exit 10
-fi
+# if [ -z "${SUDO_PASS}" ]; then
+#     echo -e "${RED} Please enter the sudo passwrod as the 1st arg of this script ${NC}" && echo
+#     exit 10
+# fi
 
-if [ -z "${GIT_TOKEN}" ]; then
-    echo -e "${RED} Please enter the GIT_TOKEN as the 2nd arg of this script ${NC}" && echo
-    exit 10
-fi
+# if [ -z "${GIT_TOKEN}" ]; then
+#     echo -e "${RED} Please enter the GIT_TOKEN as the 2nd arg of this script ${NC}" && echo
+#     exit 10
+# fi
 
 
 
@@ -79,7 +77,8 @@ else
 fi
 
 # Setup requirements for control package
-cd ${HOME}/catkin_ws/src/drone_hunter_control/scripts && ./setup.sh ${SUDO_PASS} ${GIT_TOKEN}
+cd ${HOME}/catkin_ws/src/drone_hunter_control && git checkout mpc_tracker
+cd ${HOME}/catkin_ws/src/drone_hunter_control/scripts && ./setup.sh
 
 # Build catkin_ws
 cd ${HOME}/catkin_ws && catkin build
