@@ -1,126 +1,90 @@
- #! /bin/bash
-# Runs a docker container for simulating autonomous drone hunter project
-# Requires:
-#   - docker
-#   - nvidia-docker
-#   - an X server
-# Optional:
-#   - device mounting such as: joystick mounted to /dev/input/js0
-#
-# Authors: Mohammed Abdelkader, mohamedashraf123@gmail.com
- 
-DOCKER_REPO="mzahana/px4-ros-melodic-cuda10.1:latest"
-CONTAINER_NAME="drone_hunter_sim"
-WORKSPACE_DIR=~/${CONTAINER_NAME}_shared_volume
-CMD=""
-DOCKER_OPTS=
+#!/bin/bash
 
-# User name inside container
-USER_NAME=arrow
+# This scripts sets up the simulation environment of the autonomous drone hunter project
+# Author: Mohamed Abdelkader, mohamedashraf123@gmail.com
 
-# Get the current version of docker-ce
-# Strip leading stuff before the version number so it can be compared
-DOCKER_VER=$(dpkg-query -f='${Version}' --show docker-ce | sed 's/[0-9]://')
-if dpkg --compare-versions 19.03 gt "$DOCKER_VER"
-then
-    echo "Docker version is less than 19.03, using nvidia-docker2 runtime"
-    if ! dpkg --list | grep nvidia-docker2
-    then
-        echo "Please either update docker-ce to a version greater than 19.03 or install nvidia-docker2"
-	exit 1
-    fi
-    DOCKER_OPTS="$DOCKER_OPTS --runtime=nvidia"
+echo "Setting up the simulation environment of the autonomous drone hunter project..."
+
+
+# For coloring terminal output
+# RED='\033[0;31m'
+# NC='\033[0m' # No Color
+
+# if [ -z "${SUDO_PASS}" ]; then
+#     echo -e "${RED} Please enter the sudo passwrod as the 1st arg of this script ${NC}" && echo
+#     exit 10
+# fi
+
+# if [ -z "${GIT_TOKEN}" ]; then
+#     echo -e "${RED} Please enter the GIT_TOKEN as the 2nd arg of this script ${NC}" && echo
+#     exit 10
+# fi
+
+
+
+# Path to the PX4 Frimware folder. It assumes that ROS is installed properly,
+#  and the PX4 is in ROS_PACKAGE_PATH
+PX4_PATH=$(rospack find px4)
+if [ -z "${PX4_PATH}" ]; then
+	echo
+	echo "Could not find PX4 Firmware folder"
+	echo "Setting PX4_PATH to the default PX4_PATH='${HOME}/Firmware'"
+	PX4_PATH="${HOME}/Firmware"
+	echo "PX4_PATH=${PX4_PATH}"
+	echo
 else
-    DOCKER_OPTS="$DOCKER_OPTS --gpus all"
-fi
-echo "GPU arguments: $DOCKER_OPTS"
-
-# This will enable running containers with different names
-# It will create a local workspace and link it to the image's catkin_ws
-if [ "$1" != "" ]; then
-    CONTAINER_NAME=$1
-fi
-WORKSPACE_DIR=~/${CONTAINER_NAME}_shared_volume
-if [ ! -d $WORKSPACE_DIR ]; then
-    mkdir -p $WORKSPACE_DIR
-fi
-echo "Container name:$CONTAINER_NAME WORSPACE DIR:$WORKSPACE_DIR" 
-
-
-if [ "$2" != "" ]; then
-    CMD=$2
+	echo "Found PX4 folder at ${PX4_PATH}"
+	echo
 fi
 
-XAUTH=/tmp/.docker.xauth
-xauth_list=$(xauth nlist :0 | sed -e 's/^..../ffff/')
-if [ ! -f $XAUTH ]
-then
-    echo XAUTH file does not exist. Creating one...
-    touch $XAUTH
-    chmod a+r $XAUTH
-    if [ ! -z "$xauth_list" ]
-    then
-        echo $xauth_list | xauth -f $XAUTH nmerge -
-    fi
-fi
-
-# Prevent executing "docker run" when xauth failed.
-if [ ! -f $XAUTH ]
-then
-  echo "[$XAUTH] was not properly created. Exiting..."
-  exit 1
-fi
-
-
-echo "Shared WORKSPACE_DIR: $WORKSPACE_DIR";
-echo "Docker container username:" $USER_NAME
-
-#not-recommended - T.T please fix me, check this: http://wiki.ros.org/docker/Tutorials/GUI
-xhost +local:root
- 
-echo "Starting Container: ${CONTAINER_NAME} with REPO: $DOCKER_REPO"
-
-if [ "$(docker ps -aq -f name=${CONTAINER_NAME})" ]; then
-    if [ "$(docker ps -aq -f status=exited -f name=${CONTAINER_NAME})" ]; then
-        # cleanup
-        echo "Restarting the container..."
-        docker start ${CONTAINER_NAME}
-    fi
-    if [ -z "$CMD" ]; then
-        docker exec -it --user $USER_NAME ${CONTAINER_NAME} bash
-    else
-        docker exec -it --user $USER_NAME ${CONTAINER_NAME} bash -c "$CMD && /bin/bash"
-    fi
-
+# Copy the 10017_psu_drone PX4 startup file
+if [ ! -d "${PX4_PATH}" ]; then
+    echo "${RED} [ERROR] ${PX4_PATH} does not exist. It seems the PX4 Firmware is not installed in the Home directory. Exiting the setup.${NC}"
+    exit 10
 else
-
-
-# The following command clones drone_hunter_sim. It gets executed the first time the container is run
- CMD="export GIT_TOKEN=${GIT_TOKEN} &&  export SUDO_PASS=arrow && \
-      cd \${HOME}/catkin_ws/src && git clone https://${GIT_TOKEN}@github.com/riotu-lab/drone_hunter_sim.git && \
-      cd drone_hunter_sim/scripts && \
-      ./setup.sh arrow ${GIT_TOKEN} && \
-      cd \${HOME} && source .bashrc && \
-      /bin/bash"
-
-echo "Running container ${CONTAINER_NAME}..."
-#-v /dev/video0:/dev/video0 \
-#    -p 14570:14570/udp \
-docker run -it \
-    --network host \
-    --user=$USER_NAME \
-    --env="DISPLAY=$DISPLAY" \
-    --env="QT_X11_NO_MITSHM=1" \
-    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --volume="/etc/localtime:/etc/localtime:ro" \
-    --volume="$WORKSPACE_DIR:/home/$USER_NAME/shared_volume:rw" \
-    --volume="/dev/input:/dev/input" \
-    --volume="$XAUTH:$XAUTH" \
-    -env="XAUTHORITY=$XAUTH" \
-    --workdir="/home/$USER_NAME" \
-    --name=${CONTAINER_NAME} \
-    --privileged \
-    $DOCKER_OPTS \
-    ${DOCKER_REPO} \
-    bash -c "${CMD}"
+    cp $HOME/catkin_ws/src/drone_hunter_sim/config/10017_psu_drone ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix
+    echo "10017_psu_drone is copied to ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix" && echo
 fi
+echo " " && echo "Adding drone_hunter_sim/models to GAZEBO_MODEL_PATH..." && echo " "
+
+grep -xF 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$HOME/catkin_ws/src/drone_hunter_sim/models' ${HOME}/.bashrc || echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$HOME/catkin_ws/src/drone_hunter_sim/models" >> ${HOME}/.bashrc
+
+
+
+# Cloning the perception package
+if [ ! -d "${HOME}/catkin_ws/src/drone_hunter_perception" ]; then
+    echo "Didn't find drone_hunter_perception. Cloning it..."
+    cd ${HOME}/catkin_ws/src/
+    git clone https://${GIT_TOKEN}@github.com/riotu-lab/drone_hunter_perception.git
+else
+    echo "drone_hunter_perception is found. Pulling latest code..."
+    cd ${HOME}/catkin_ws/src/drone_hunter_perception
+    git pull
+fi
+
+# Setup requirements for perception package
+cd ${HOME}/catkin_ws/src/drone_hunter_perception/scripts && ./setup.sh ${SUDO_PASS} ${GIT_TOKEN}
+
+# Cloning control package
+if [ ! -d "${HOME}/catkin_ws/src/drone_hunter_control" ]; then
+    echo "Didn't find drone_hunter_control. Cloning it..."
+    cd ${HOME}/catkin_ws/src/
+    git clone https://${GIT_TOKEN}@github.com/riotu-lab/drone_hunter_control.git
+else
+    echo "drone_hunter_control is found. Pulling latest code..."
+    cd ${HOME}/catkin_ws/src/drone_hunter_control
+    git pull
+fi
+
+# Setup requirements for control package
+cd ${HOME}/catkin_ws/src/drone_hunter_control && git checkout mpc_tracker
+cd ${HOME}/catkin_ws/src/drone_hunter_control/scripts && ./setup.sh
+
+# Build catkin_ws
+cd ${HOME}/catkin_ws && catkin build
+
+echo && echo "Execute this command:   source \$HOME/.bashrc" && echo " "
+
+echo && echo "To run the basic simulation: roslaunch drone_hunter_sim basic_sim.launch" && echo
+
+echo && echo "Setup is complete." && echo
