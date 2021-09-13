@@ -80,48 +80,51 @@ xhost +local:root
  
 echo "Starting Container: ${CONTAINER_NAME} with REPO: $DOCKER_REPO"
 
+CMD="/bin/bash"
+if [ "$2" != "" ]; then
+    CMD=$2
+fi
+echo $CMD
 if [ "$(docker ps -aq -f name=${CONTAINER_NAME})" ]; then
     if [ "$(docker ps -aq -f status=exited -f name=${CONTAINER_NAME})" ]; then
         # cleanup
         echo "Restarting the container..."
         docker start ${CONTAINER_NAME}
     fi
-    if [ -z "$CMD" ]; then
-        docker exec -it --user $USER_NAME ${CONTAINER_NAME} bash
-    else
-        docker exec -it --user $USER_NAME ${CONTAINER_NAME} bash -c "$CMD && /bin/bash"
-    fi
+
+    docker exec -it --user $USER_NAME ${CONTAINER_NAME} bash -c "${CMD}"
 
 else
 
 
-# The following command clones drone_hunter_sim. It gets executed the first time the container is run
- CMD="cd \${HOME}/catkin_ws/src && git clone https://${GIT_TOKEN}@github.com/riotu-lab/drone_hunter_sim.git && \
-      cd drone_hunter_sim/scripts && \
-      ./setup.sh arrow ${GIT_TOKEN} && \
-      cd \${HOME} && source .bashrc && \
-      /bin/bash"
+    # The following command clones drone_hunter_sim. It gets executed the first time the container is run
+    CMD="export GIT_TOKEN=${GIT_TOKEN} &&  export SUDO_PASS=arrow && \
+        if [ ! -d "\$HOME/catkin_ws/src/drone_hunter_sim" ]; then
+        cd \${HOME}/catkin_ws/src
+        git clone https://${GIT_TOKEN}@github.com/riotu-lab/drone_hunter_sim.git
+        cd drone_hunter_sim/scripts && ./setup.sh
+        fi && \
+        cd \${HOME} && source .bashrc && \
+        /bin/bash"
 
-echo "Running container ${CONTAINER_NAME}..."
-#-v /dev/video0:/dev/video0 \
-#    -p 14570:14570/udp \
-docker run -it \
-    --network host \
-    --user=$USER_NAME \
-    --env="DISPLAY=$DISPLAY" \
-    --env="QT_X11_NO_MITSHM=1" \
-    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --volume="/etc/localtime:/etc/localtime:ro" \
-    --volume="$WORKSPACE_DIR:/home/$USER_NAME/shared_volume:rw" \
-    --volume="/dev/input:/dev/input" \
-    --volume="$XAUTH:$XAUTH" \
-    -env="XAUTHORITY=$XAUTH" \
-    --workdir="/home/$USER_NAME" \
-    --name=${CONTAINER_NAME} \
-    --privileged \
-    $DOCKER_OPTS \
-    ${DOCKER_REPO} \
-    bash -c "${CMD}"
+    echo "Running container ${CONTAINER_NAME}..."
+    #-v /dev/video0:/dev/video0 \
+    #    -p 14570:14570/udp \
+    docker run -it \
+        --network host \
+        --user=$USER_NAME \
+        --env="DISPLAY=$DISPLAY" \
+        --env="QT_X11_NO_MITSHM=1" \
+        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+        --volume="/etc/localtime:/etc/localtime:ro" \
+        --volume="$WORKSPACE_DIR:/home/$USER_NAME/shared_volume:rw" \
+        --volume="/dev/input:/dev/input" \
+        --volume="$XAUTH:$XAUTH" \
+        -env="XAUTHORITY=$XAUTH" \
+        --workdir="/home/$USER_NAME" \
+        --name=${CONTAINER_NAME} \
+        --privileged \
+        $DOCKER_OPTS \
+        ${DOCKER_REPO} \
+        bash -c "${CMD}"
 fi
-   
-#xhost -local:root
