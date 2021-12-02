@@ -21,7 +21,7 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   ```sh
   roslaunch drone_hunter_sim basic_sim.launch
   ```
-* To tun the basic simulation, but with one drone that does drone detection,
+* To run the basic simulation, but with one drone that does drone detection,
   ```sh
   roslaunch drone_hunter_sim drone_detection.launch
   ```
