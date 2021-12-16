@@ -1,0 +1,42 @@
+<launch>
+  <arg name="vehicle" value="iris"/>
+
+    <!-- Geometric controller -->    
+    <arg name="command_input" default="2" /> <!-- 2: ERROR_GEOMETRIC? -->
+    <arg name="gazebo_simulation" default="true" /> <!-- True: will enable automatic arming and OFFBOARD mode -->
+    <group ns="intruder">
+      <node pkg="geometric_controller" type="geometric_controller_node" name="geometric_controller">
+          <remap from="command/bodyrate_command" to="mavros/setpoint_raw/attitude"/>
+          <param name="mavname" type="string" value="$(arg vehicle)" />
+          <param name="ctrl_mode" value="$(arg command_input)" />
+          <param name="enable_sim" value="$(arg gazebo_simulation)" />
+          <param name="max_acc" value="3.0"/>
+          <param name="attctrl_constant" value="0.3"/>
+          <param name="normalizedthrust_constant" value="0.06"/>
+          <param name="normalizedthrust_offset" value="0.1"/>
+          <param name="Kp_x" value="5.0"/>
+          <param name="Kp_y" value="5.0"/>
+          <param name="Kp_z" value="20.0"/>
+          <param name="Kv_x" value="3.0"/>
+          <param name="Kv_y" value="3.0"/>
+          <param name="Kv_z" value="10.0"/>
+          <param name="init_pos_x" value="5.0"/>
+          <param name="init_pos_y" value="0.0"/>
+          <param name="init_pos_z" value="3.0"/>
+      </node>
+
+
+      <!-- Takes waypoints+velocity reference+accel reference, and generates feasible trajectory -->
+      <node name="waypoint_navigator_node" pkg="waypoint_navigator" type="waypoint_navigator_node"  respawn="true" clear_params="true" output="screen">
+          <rosparam file="$(find drone_hunter_sim)/config/target_navigator_config.yaml"/>
+          <param name="mav_name" type="string" value="$(arg vehicle)" />
+          <param name="frame_id" type="string" value="local_origin" />
+          <remap from="odometry" to="mavros/local_position/odom" />
+          <remap from="path_segments" to="path_segments_4D"/>
+      </node>
+
+      <node name="trajectory_sampler" pkg="mav_trajectory_generation_ros" type="trajectory_sampler_node" output="screen" />
+      
+    </group>
+
+</launch>
