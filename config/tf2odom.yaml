@@ -1,0 +1,7 @@
+parent_frame: "interceptor_odom"
+child_frame: "intruder_odom"
+
+child_odom_topic: "/intruder/mavros/local_position/odom"
+
+# Odometry topic name, transofrmed from child_frame to parent_frame
+transformed_odom_topic: "/target/odom"

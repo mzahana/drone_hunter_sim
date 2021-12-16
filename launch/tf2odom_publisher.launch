@@ -1,0 +1,8 @@
+<launch>
+  
+  <!-- This is most likely needed in simulation only -->
+  <node name="tf2odom_publisher_node" pkg="drone_hunter_sim" type="tf2odom.py" output="screen">
+    <rosparam command="load" file="$(find drone_hunter_sim)/config/tf2odom.yaml"/>
+  </node>
+
+</launch>

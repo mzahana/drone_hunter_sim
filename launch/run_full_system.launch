@@ -1,0 +1,11 @@
+<launch>
+  <include file="$(find drone_hunter_sim)/launch/basic_sim.launch">
+  </include>
+  
+  <include file="$(find drone_hunter_sim)/launch/interceptor.launch">
+  </include>
+
+  <include file="$(find drone_hunter_sim)/launch/target.launch">
+  </include>
+
+</launch>
