@@ -12,21 +12,21 @@
   </include>
 
   <!-- Navigator -->
-  <include file="$(find mpc_tracker)/launch/navigator.launch">
+  <!-- <include file="$(find mpc_tracker)/launch/navigator.launch">
     <arg name="ns" value="interceptor"/>
-  </include>
+  </include> -->
 
   <!-- Trajectory sampler -->
-  <group ns="interceptor">
+  <!-- <group ns="interceptor">
     <node name="trajectory_sampler" pkg="mav_trajectory_generation_ros" type="trajectory_sampler_node" output="screen" />
-  </group>
+  </group> -->
 
   <!-- Geomtric controller -->
       <arg name="vehicle" value="iris"/>
 
     <!-- Geometric controller -->    
-    <arg name="command_input" default="2" /> <!-- 2: ERROR_GEOMETRIC? -->
-    <arg name="gazebo_simulation" default="true" /> <!-- True: will enable automatic arming and OFFBOARD mode -->
+    <arg name="command_input" default="2" /> 
+    <arg name="gazebo_simulation" default="true" />
     <group ns="interceptor">
       <node pkg="geometric_controller" type="geometric_controller_node" name="geometric_controller">
           <remap from="command/bodyrate_command" to="mavros/setpoint_raw/attitude"/>
