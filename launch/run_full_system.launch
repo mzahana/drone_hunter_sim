@@ -8,4 +8,6 @@
   <include file="$(find drone_hunter_sim)/launch/target.launch">
   </include>
 
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find drone_hunter_sim)/rviz/traj_simulation.rviz" />
+
 </launch>
