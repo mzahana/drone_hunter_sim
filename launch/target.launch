@@ -27,15 +27,22 @@
 
 
       <!-- Takes waypoints+velocity reference+accel reference, and generates feasible trajectory -->
-      <node name="waypoint_navigator_node" pkg="waypoint_navigator" type="waypoint_navigator_node"  respawn="true" clear_params="true" output="screen">
+      <!-- <node name="waypoint_navigator_node" pkg="waypoint_navigator" type="waypoint_navigator_node"  respawn="true" clear_params="true" output="screen">
           <rosparam file="$(find drone_hunter_sim)/config/target_navigator_config.yaml"/>
           <param name="mav_name" type="string" value="$(arg vehicle)" />
           <param name="frame_id" type="string" value="local_origin" />
           <remap from="odometry" to="mavros/local_position/odom" />
           <remap from="path_segments" to="path_segments_4D"/>
-      </node>
+      </node> -->
 
-      <node name="trajectory_sampler" pkg="mav_trajectory_generation_ros" type="trajectory_sampler_node" output="screen" />
+      <!-- <node name="trajectory_sampler" pkg="mav_trajectory_generation_ros" type="trajectory_sampler_node" output="screen" /> -->
+
+      <node pkg="trajectory_publisher" type="trajectory_publisher" name="trajectory_publisher" output="screen">
+        <param name="trajectory_type" value="1" />
+        <param name="shape_omega" value="1.5" />
+        <param name="initpos_z" value="2.0" />
+        <param name="reference_type" value="2" />
+      </node>
       
     </group>
 
