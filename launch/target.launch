@@ -20,7 +20,7 @@
           <param name="Kv_x" value="3.0"/>
           <param name="Kv_y" value="3.0"/>
           <param name="Kv_z" value="10.0"/>
-          <param name="init_pos_x" value="5.0"/>
+          <param name="init_pos_x" value="0.0"/>
           <param name="init_pos_y" value="0.0"/>
           <param name="init_pos_z" value="3.0"/>
       </node>
@@ -38,7 +38,7 @@
       <!-- <node name="trajectory_sampler" pkg="mav_trajectory_generation_ros" type="trajectory_sampler_node" output="screen" /> -->
 
       <node pkg="trajectory_publisher" type="trajectory_publisher" name="trajectory_publisher" output="screen">
-        <param name="trajectory_type" value="1" />
+        <param name="trajectory_type" value="1" /> <!-- 1: circle, 2: infinity -->
         <param name="shape_omega" value="1.5" />
         <param name="initpos_z" value="2.0" />
         <param name="reference_type" value="2" />
