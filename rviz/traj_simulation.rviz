@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /Interceptor Odom1/Shape1
-        - /Intruder Odom1
       Splitter Ratio: 0.5735294222831726
     Tree Height: 752
   - Class: rviz/Selection
@@ -114,7 +113,7 @@ Visualization Manager:
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
-      Color: 255; 0; 0
+      Color: 255; 255; 0
       Enabled: true
       Head Diameter: 0.30000001192092896
       Head Length: 0.20000000298023224
@@ -175,7 +174,7 @@ Visualization Manager:
           Value: true
         Value: true
       Enabled: true
-      Keep: 5
+      Keep: 1
       Name: Interceptor Odom
       Position Tolerance: 0.10000000149011612
       Shape:
@@ -209,7 +208,7 @@ Visualization Manager:
           Value: true
         Value: true
       Enabled: true
-      Keep: 50
+      Keep: 5
       Name: Intruder Odom
       Position Tolerance: 0.10000000149011612
       Shape:
@@ -253,7 +252,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 23.85099983215332
+      Distance: 27.425012588500977
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -268,10 +267,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.430398553609848
+      Pitch: 0.4553985595703125
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.563589572906494
+      Yaw: 5.363587379455566
     Saved: ~
 Window Geometry:
   Displays:
