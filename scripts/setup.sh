@@ -49,42 +49,31 @@ echo " " && echo "Adding drone_hunter_sim/models to GAZEBO_MODEL_PATH..." && ech
 
 grep -xF 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$HOME/catkin_ws/src/drone_hunter_sim/models' ${HOME}/.bashrc || echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$HOME/catkin_ws/src/drone_hunter_sim/models" >> ${HOME}/.bashrc
 
-
-
-# Cloning the perception package
-if [ ! -d "${HOME}/catkin_ws/src/drone_hunter_perception" ]; then
-    echo "Didn't find drone_hunter_perception. Cloning it..."
-    cd ${HOME}/catkin_ws/src/
-    git clone https://${GIT_TOKEN}@github.com/riotu-lab/drone_hunter_perception.git
-else
-    echo "drone_hunter_perception is found. Pulling latest code..."
-    cd ${HOME}/catkin_ws/src/drone_hunter_perception
-    git pull
-fi
+# Clone Systemtrio packages
+PKGS="drone_hunter_perception mpc_tracker trajectory_prediction custom_trajectory_msgs"
+for p in $PKGS; do
+    if [ ! -d "$HOME/catkin_ws/src/$p" ]; then
+        echo "Didn't find $p. Cloning it..."
+        cd $HOME/catkin_ws/src
+        git clone https://${GIT_TOKEN}@github.com/SystemTrio-Robotics/$p
+    else
+        echo "$p is found. Pulling latest code..."
+        cd $HOME/catkin_ws/src/$p && git pull
+    fi
+done
 
 # Setup requirements for perception package
-cd ${HOME}/catkin_ws/src/drone_hunter_perception/scripts && ./setup.sh ${SUDO_PASS} ${GIT_TOKEN}
-
-# Cloning control package
-if [ ! -d "${HOME}/catkin_ws/src/drone_hunter_control" ]; then
-    echo "Didn't find drone_hunter_control. Cloning it..."
-    cd ${HOME}/catkin_ws/src/
-    git clone https://${GIT_TOKEN}@github.com/riotu-lab/drone_hunter_control.git
-else
-    echo "drone_hunter_control is found. Pulling latest code..."
-    cd ${HOME}/catkin_ws/src/drone_hunter_control
-    git pull
-fi
+cd ${HOME}/catkin_ws/src/drone_hunter_perception/scripts && ./setup.sh
 
 # Setup requirements for control package
-cd ${HOME}/catkin_ws/src/drone_hunter_control && git checkout mpc_tracker
-cd ${HOME}/catkin_ws/src/drone_hunter_control/scripts && ./setup.sh
+cd ${HOME}/catkin_ws/src/mpc_tracker
+cd ${HOME}/catkin_ws/src/mpc_tracker/scripts && ./setup.sh
 
 # Build catkin_ws
 cd ${HOME}/catkin_ws && catkin build
 
 echo && echo "Execute this command:   source \$HOME/.bashrc" && echo " "
 
-echo && echo "To run the basic simulation: roslaunch drone_hunter_sim basic_sim.launch" && echo
+echo && echo "To run the simulation: roslaunch drone_hunter_sim run_full_system.launch" && echo
 
 echo && echo "Setup is complete." && echo
