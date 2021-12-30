@@ -17,9 +17,13 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
 * This should get you in the simulatoin docker container, after automatically installing all the neccessary software
 
 # Run simulation
-* To run  basic simulation of 2 drones,
+* To run drone hunting simulation of 2 drones,
   ```sh
-  roslaunch drone_hunter_sim basic_sim.launch
+  roslaunch drone_hunter_sim run_full_system.launch
+  ```
+  After the two drones takeoff, run the following to send target position estimates to the prediction system to complete the loop and start tracking!
+  ```bash
+  roslaunch drone_hunter_sim tf2odom_publisher.launch
   ```
 * To run the basic simulation, but with one drone that does drone detection,
   ```sh
