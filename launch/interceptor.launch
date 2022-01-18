@@ -31,6 +31,7 @@
       <node pkg="geometric_controller" type="geometric_controller_node" name="geometric_controller">
           <remap from="command/bodyrate_command" to="mavros/setpoint_raw/attitude"/>
           <param name="mavname" type="string" value="$(arg vehicle)" />
+          <param name="velocity_yaw" value="false"/>
           <param name="ctrl_mode" value="$(arg command_input)" />
           <param name="enable_sim" value="$(arg gazebo_simulation)" />
           <param name="max_acc" value="5.0"/>
@@ -43,7 +44,7 @@
           <param name="Kv_x" value="5.0"/>
           <param name="Kv_y" value="5.0"/>
           <param name="Kv_z" value="10.0"/>
-          <param name="init_pos_x" value="5.0"/>
+          <param name="init_pos_x" value="-5.0"/>
           <param name="init_pos_y" value="0.0"/>
           <param name="init_pos_z" value="3.0"/>
       </node>
