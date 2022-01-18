@@ -3,8 +3,8 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
 # Setup
 * Make sure that you have NVIDIA graphics card and its drivers are installed
 * Make sure that you have docker installed
-* Copy the [docker_run_drone_hunter_sim.sh](https://github.com/riotu-lab/drone_hunter_sim/blob/main/scripts/docker_run_drone_hunter_sim.sh) content in a local script and make it executable using the command `chmod +x docker_run_drone_hunter_sim.sh`
-* You will need to get the required `GIT_TOKEN` to be able to access RIOTU Github repos. Contact RIOTU GitHub admin for that
+* Copy the [docker_run_drone_hunter_sim.sh](https://github.com/SystemTrio-Robotics/drone_hunter_sim/blob/main/scripts/docker_run_drone_hunter_sim.sh) content in a local script and make it executable using the command `chmod +x docker_run_drone_hunter_sim.sh`
+* You will need to get the required `GIT_TOKEN` to be able to access Systemtrio Github repos. Contact Systemtrio GitHub admin for that
 * Add the `GIT_TOKEN` to your PC `.bashrc` script, as follows
   ```sh
   export GIT_TOKEN=put_the_token_here
