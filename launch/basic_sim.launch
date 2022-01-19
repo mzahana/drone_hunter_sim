@@ -30,7 +30,7 @@
 
     <!-- UAV0 -->
     <arg name="ns_0" default="interceptor"/>
-    <node pkg="tf" type="static_transform_publisher" name="$(arg ns_0)_tf_camera" args="0.1 0 0.0 -1.57 0 -1.57 $(arg ns_0)_base_link $(arg ns_0)/camera_link 33"/>
+    <node pkg="tf" type="static_transform_publisher" name="$(arg ns_0)_tf_camera" args="0.1 0 0.0 -1.57 0 -1.57 $(arg ns_0)_base_link $(arg ns_0)/depth_camera_link 33"/>
     <arg name="interceptor_init_x" default="-5" />
     <arg name="interceptor_init_y" default="0" />
     <arg name="interceptor_init_z" default="0" />
