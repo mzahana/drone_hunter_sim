@@ -14,7 +14,7 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   ```sh
   ./docker_run_drone_hunter_sim.sh
   ```
-* This should get you in the simulatoin docker container, after automatically installing all the neccessary software
+* This should get you in the simulation docker container, after automatically installing all the neccessary software
 
 # Run simulation
 * To run drone hunting simulation of 2 drones,
