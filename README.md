@@ -26,6 +26,11 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   roslaunch drone_hunter_sim tf2odom_publisher.launch
   ```
 * To run the basic simulation, but with one drone that does drone detection,
-  ```sh
-  roslaunch drone_hunter_sim drone_detection.launch
+  * Run the simulation
+  ```bash
+    roslaunch drone_hunter_sim run_full_system.launch
+  ```
+  * Run the detection
+  ```bash
+  roslaunch drone_hunter_perception drone_detection.launch
   ```
