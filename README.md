@@ -32,5 +32,5 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   ```
   * Run the detection
   ```bash
-  roslaunch drone_hunter_perception drone_detection.launch
+  roslaunch drone_hunter_perception drone_detector.launch  show_debug_images:=true
   ```
