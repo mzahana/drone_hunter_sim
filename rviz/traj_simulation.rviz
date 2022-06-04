@@ -247,6 +247,38 @@ Visualization Manager:
       Topic: /intruder/trajectory_publisher/trajectory
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Arrow Length: 0.30000001192092896
+      Axes Length: 0.30000001192092896
+      Axes Radius: 0.009999999776482582
+      Class: rviz/PoseArray
+      Color: 255; 255; 0
+      Enabled: true
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
+      Name: KF tracks
+      Shaft Length: 0.5
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow (3D)
+      Topic: /interceptor/kf/tracks_pose_array
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Arrow Length: 0.30000001192092896
+      Axes Length: 0.5
+      Axes Radius: 0.05000000074505806
+      Class: rviz/PoseArray
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
+      Name: Detections
+      Shaft Length: 0.23000000417232513
+      Shaft Radius: 0.009999999776482582
+      Shape: Axes
+      Topic: /interceptor/drone_detections
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -290,10 +322,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6753983497619629
+      Pitch: 0.5703981518745422
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.763570785522461
+      Yaw: 3.6585657596588135
     Saved: ~
 Window Geometry:
   Displays:

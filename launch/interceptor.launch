@@ -1,15 +1,33 @@
 <launch>
   
+  <arg name="show_detection_imgs" default="True"/>
+  <!-- Target detector -->
+  <group ns="interceptor">
+  <include file="$(find drone_hunter_perception)/launch/drone_detector.launch">
+    <arg name="show_debug_images" value="$(arg show_detection_imgs)"/>
+  </include>
+  </group>
+
+  <!-- Kalman filter estimator -->
+  <group ns="interceptor">
+  <include file="$(find multi_target_kf)/launch/kf_tracker.launch">
+    <arg name="detections_topic" value="drone_detections"/>
+    <arg name="config_file" value="$(find drone_hunter_sim)/config/kf_params.yaml"/>
+  </include>
+  </group>
+  
   <!-- Trajectory prediction -->
   <include file="$(find trajectory_prediction)/launch/predictor.launch">
     <arg name="ns" value="interceptor"/>
     <arg name="target_odom_topic" value="/target/odom"/>
+    <arg name="kf_topic" value="kf/tracks"/>
+    <arg name="pose_array_topic" default="d"/>
   </include>
 
   <!-- MPC planner -->
-  <include file="$(find mpc_tracker)/launch/mpc_tracker.launch">
+  <!-- <include file="$(find mpc_tracker)/launch/mpc_tracker.launch">
     <arg name="ns" value="interceptor"/>
-  </include>
+  </include> -->
 
   <!-- Navigator -->
   <!-- <include file="$(find mpc_tracker)/launch/navigator.launch">

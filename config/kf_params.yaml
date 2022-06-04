@@ -1,0 +1,32 @@
+# Rate of prediction step
+dt_pred: 0.01
+# Standard deviation of the process noise
+q_std: 1.0
+# Standard deviation of position process noise
+q_pos_std: 1.0
+# Standard deviation of velocity process noise
+q_vel_std: 1.0
+# Standard deviation of the observation noise
+r_std: 0.2
+print_debug_msg: true
+# Provide estimate w.r.t this frame
+tracking_frame: 'interceptor_odom'
+# Topic name of the tag detections
+apriltags_topic: '/tag_detections'
+# Frame name of the detected target
+target_frameid: 'tag'
+# Get target measurements from TF tree
+listen_tf: true
+# Maximum uncertainty before rejecting a track [m^3] 
+V_max: 30.0
+# Minimum uncertainty for confirming a track [m^3]
+V_certain: 10.0
+# Minimum number of measurements to confirm a track
+N_meas: 5
+# Measurement association log-likelihood threshold
+l_threshold: -1000.0
+
+# True: will do state-measurement association. False: will use last measurement to update all tracks.
+# It's recommended to keep this True for multi target state estimation
+# You can set this False if you are sure that you are tracking a single target
+do_state_match: True

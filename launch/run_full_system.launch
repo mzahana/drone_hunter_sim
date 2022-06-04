@@ -2,7 +2,9 @@
   <include file="$(find drone_hunter_sim)/launch/basic_sim.launch">
   </include>
   
+  <arg name="show_detection_imgs" default="False"/>
   <include file="$(find drone_hunter_sim)/launch/interceptor.launch">
+    <arg name="show_detection_imgs" value="$(arg show_detection_imgs)"/>
   </include>
 
   <include file="$(find drone_hunter_sim)/launch/target.launch">
