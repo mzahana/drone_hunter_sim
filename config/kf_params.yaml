@@ -8,7 +8,7 @@ q_pos_std: 1.0
 q_vel_std: 1.0
 # Standard deviation of the observation noise
 r_std: 0.2
-print_debug_msg: true
+print_debug_msg: false
 # Provide estimate w.r.t this frame
 tracking_frame: 'interceptor_odom'
 # Topic name of the tag detections
@@ -22,11 +22,9 @@ V_max: 30.0
 # Minimum uncertainty for confirming a track [m^3]
 V_certain: 10.0
 # Minimum number of measurements to confirm a track
-N_meas: 5
+N_meas: 10
 # Measurement association log-likelihood threshold
-l_threshold: -1000.0
+l_threshold: -100.0
 
-# True: will do state-measurement association. False: will use last measurement to update all tracks.
-# It's recommended to keep this True for multi target state estimation
-# You can set this False if you are sure that you are tracking a single target
-do_state_match: True
+# False: Doesn't consider measurement track ID in measurement-state association 
+use_track_id: false
