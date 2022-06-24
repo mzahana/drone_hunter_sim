@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
+    <arg name="add_intruder_2" default="false"/>
     <!-- MAVROS posix SITL environment launch script -->
     <!-- launches Gazebo environment and 2x: MAVROS, PX4 SITL, and spawns vehicle -->
     <!-- vehicle model and world -->
@@ -99,6 +100,42 @@
             <arg name="tgt_component" value="1"/>
             <arg name="pluginlists_yaml" value="$(find drone_hunter_sim)/config/px4_pluginlists.yaml" />
             <arg name="config_yaml" value="$(find drone_hunter_sim)/config/px4_intruder_config.yaml" />
+        </include>
+    </group>
+
+    <!-- UAV2 -->
+    <arg name="ns_2" default="intruder2"/>
+    <arg name="intruder2_init_x" default="0" />
+    <arg name="intruder2_init_y" default="2" />
+    <arg name="intruder2_init_z" default="0" />
+    <node pkg="tf" type="static_transform_publisher" name="tf_map_to_$(arg ns_2)_map" args="$(arg intruder2_init_x) $(arg intruder2_init_y) $(arg intruder2_init_z) 0 0 0 map $(arg ns_2)_odom 33"/>
+    <group if="$(arg add_intruder_2)" ns="$(arg ns_2)">
+        <!-- MAVROS and vehicle configs -->
+        <arg name="ID" value="2"/>
+        <arg name="fcu_url" default="udp://:14542@localhost:14582"/>
+        <!-- PX4 SITL and vehicle spawn -->
+        <include file="$(find drone_hunter_sim)/launch/single_vehicle_spawn.launch">
+            <arg name="x" value="$(arg intruder2_init_x)"/>
+            <arg name="y" value="$(arg intruder2_init_y)"/>
+            <arg name="z" value="$(arg intruder2_init_z)"/>
+            <arg name="R" value="0"/>
+            <arg name="P" value="0"/>
+            <arg name="Y" value="0"/>
+            <arg name="vehicle" value="$(arg vehicle)"/>
+            <arg name="gazebo_model_name" value="$(arg ns_2)" />
+            <arg name="mavlink_udp_port" value="14562"/>
+            <arg name="mavlink_tcp_port" value="4562"/>
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="drone_color" value="Gazebo/Red"/>
+        </include>
+        <!-- MAVROS -->
+        <include file="$(find drone_hunter_sim)/launch/mavros.launch">
+            <arg name="fcu_url" value="$(arg fcu_url)"/>
+            <arg name="gcs_url" value=""/>
+            <arg name="tgt_system" value="$(eval 1 + arg('ID'))"/>
+            <arg name="tgt_component" value="1"/>
+            <arg name="pluginlists_yaml" value="$(find drone_hunter_sim)/config/px4_pluginlists.yaml" />
+            <arg name="config_yaml" value="$(find drone_hunter_sim)/config/px4_intruder2_config.yaml" />
         </include>
     </group>
     
