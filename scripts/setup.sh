@@ -64,7 +64,7 @@ done
 
 cd $HOME/catkin_ws/src
 git clone https://${GIT_TOKEN}@github.com/mzahana/multi_target_kf.git
-cd ${HOME}/catkin_ws/src/multi_target_kf/ && git checkout pr_drone_hunter_sim 
+cd ${HOME}/catkin_ws/src/multi_target_kf/ && git checkout pr_dubins_model 
 
 
 # Setup requirements for perception package
