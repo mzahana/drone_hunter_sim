@@ -101,8 +101,9 @@ else
     CMD="export GIT_TOKEN=${GIT_TOKEN} &&  export SUDO_PASS=arrow && \
         if [ ! -d "\$HOME/catkin_ws/src/drone_hunter_sim" ]; then
         cd \${HOME}/catkin_ws/src
-        git clone https://${GIT_TOKEN}@github.com/SystemTrio-Robotics/drone_hunter_sim.git
-        cd drone_hunter_sim/scripts && ./setup.sh
+        git clone https://${GIT_TOKEN}@github.com/SystemTrio-Robotics/drone_hunter_sim.git && \
+	cd \${HOME}/catkin_ws/src/drone_hunter_sim/ && git checkout pr_drone_hunter_sim && \
+        ./scripts/setup.sh ${GIT_TOKEN}
         fi && \
         cd \${HOME} && source .bashrc && \
         /bin/bash"
