@@ -64,6 +64,8 @@ done
 
 cd $HOME/catkin_ws/src
 git clone https://${GIT_TOKEN}@github.com/mzahana/multi_target_kf.git
+cd ${HOME}/catkin_ws/src/multi_target_kf/ && git checkout pr_drone_hunter_sim 
+
 
 # Setup requirements for perception package
 cd ${HOME}/catkin_ws/src/drone_hunter_perception/scripts && ./setup.sh
@@ -71,7 +73,7 @@ cd ${HOME}/catkin_ws/src/drone_hunter_perception/scripts && ./setup.sh
 # Setup requirements for control package
 cd ${HOME}/catkin_ws/src/mpc_tracker
 cd ${HOME}/catkin_ws/src/mpc_tracker/scripts && ./setup.sh
-cd 
+
 
 # Build catkin_ws
 cd ${HOME}/catkin_ws && catkin build
