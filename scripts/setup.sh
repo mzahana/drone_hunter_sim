@@ -49,13 +49,13 @@ echo " " && echo "Adding drone_hunter_sim/models to GAZEBO_MODEL_PATH..." && ech
 
 grep -xF 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$HOME/catkin_ws/src/drone_hunter_sim/models' ${HOME}/.bashrc || echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$HOME/catkin_ws/src/drone_hunter_sim/models" >> ${HOME}/.bashrc
 
-# Clone Systemtrio packages
+# Clone packages
 PKGS="drone_hunter_perception mpc_tracker trajectory_prediction custom_trajectory_msgs"
 for p in $PKGS; do
     if [ ! -d "$HOME/catkin_ws/src/$p" ]; then
         echo "Didn't find $p. Cloning it..."
         cd $HOME/catkin_ws/src
-        git clone https://${GIT_TOKEN}@github.com/SystemTrio-Robotics/$p
+        git clone https://${GIT_TOKEN}@github.com/mzahana/$p
     else
         echo "$p is found. Pulling latest code..."
         cd $HOME/catkin_ws/src/$p && git pull
