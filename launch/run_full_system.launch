@@ -1,7 +1,9 @@
 <launch>
+  <arg name="gazebo_verbose" default="false"/>
 <arg name="add_intruder_2" default="false"/>
   <include file="$(find drone_hunter_sim)/launch/basic_sim.launch">
     <arg name="add_intruder_2" value="$(arg add_intruder_2)"/>
+    <arg name="verbose" value="$(arg gazebo_verbose)"/>
   </include>
   
   <arg name="show_detection_imgs" default="False"/>
