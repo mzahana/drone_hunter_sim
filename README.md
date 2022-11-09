@@ -21,4 +21,6 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   ```sh
   roslaunch drone_hunter_sim run_full_system.launch show_detection_imgs:=True
   ```
+**NOTE** When you run the simulation for the first time, Gazebo might take some time to donwload some models from the internet. Just be patient !
+
 **NOTE** currently the target prediction is not working properly, so the MPC (controller) is deactivated in the `run_full_system.launch` file.
