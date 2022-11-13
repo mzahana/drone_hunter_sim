@@ -55,7 +55,7 @@ for p in $PKGS; do
     if [ ! -d "$HOME/catkin_ws/src/$p" ]; then
         echo "Didn't find $p. Cloning it..."
         cd $HOME/catkin_ws/src
-        git clone https://${GIT_TOKEN}@github.com/mzahana/$p
+        git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/mzahana/$p
     else
         echo "$p is found. Pulling latest code..."
         cd $HOME/catkin_ws/src/$p && git pull
@@ -63,7 +63,7 @@ for p in $PKGS; do
 done
 
 cd $HOME/catkin_ws/src
-git clone https://${GIT_TOKEN}@github.com/mzahana/multi_target_kf.git
+git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/mzahana/multi_target_kf.git
 
 # Setup requirements for perception package
 cd ${HOME}/catkin_ws/src/drone_hunter_perception/scripts && ./setup.sh
