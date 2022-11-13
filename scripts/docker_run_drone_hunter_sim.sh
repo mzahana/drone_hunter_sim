@@ -8,7 +8,18 @@
 #   - device mounting such as: joystick mounted to /dev/input/js0
 #
 # Authors: Mohammed Abdelkader, mohamedashraf123@gmail.com
- 
+
+# GIT_USER must be exported (e.g. in .bashrc)
+if [ -z "$GIT_USER" ]; then
+	echo && echo "ERROR: Environment variable GIT_USER is not defined. Kindly export your GIT_USER" && echo
+	exit 10
+fi
+
+# GIT_TOKEN must be exported (e.g. in .bashrc)
+if [ -z "$GIT_TOKEN" ]; then
+	echo && echo "ERROR: GIT_TOKEN of the Github pkgs is not exported. Contact your Github admin to obtain it." && echo
+	exit 10
+fi
 DOCKER_REPO="mzahana/px4-ros-melodic-cuda10.1:latest"
 CONTAINER_NAME="drone_hunter_sim"
 WORKSPACE_DIR=~/${CONTAINER_NAME}_shared_volume
@@ -98,7 +109,7 @@ else
 
 
     # The following command clones drone_hunter_sim. It gets executed the first time the container is run
-    CMD="export GIT_TOKEN=${GIT_TOKEN} &&  export SUDO_PASS=arrow && \
+    CMD="export GIT_USER=${GIT_USER} && export GIT_TOKEN=${GIT_TOKEN} &&  export SUDO_PASS=arrow && \
         if [ ! -d "\$HOME/catkin_ws/src/drone_hunter_sim" ]; then
         cd \${HOME}/catkin_ws/src
         git clone https://${GIT_TOKEN}@github.com/mzahana/drone_hunter_sim.git
