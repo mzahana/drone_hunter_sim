@@ -9,6 +9,10 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   ```sh
   export GIT_TOKEN=put_the_token_here
   ```
+* You need to add your Github user ID as an environment variable. Add the `GIT_USER` to your PC `.bashrc` script, as follows
+  ```sh
+  export GIT_USER=your_user_id
+  ```
 * Save & close `.bashrc` and source it `source ~/.bashrc`
 * Run the `docker_run_drone_hunter_sim.sh` script
   ```sh
