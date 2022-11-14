@@ -30,7 +30,7 @@ if [ -z "${PX4_PATH}" ]; then
 	echo
 	echo "Could not find PX4 Firmware folder"
 	echo "Setting PX4_PATH to the default PX4_PATH='${HOME}/Firmware'"
-	PX4_PATH="${HOME}/Firmware"
+	PX4_PATH="${HOME}/PX4-Autopilot"
 	echo "PX4_PATH=${PX4_PATH}"
 	echo
 else
