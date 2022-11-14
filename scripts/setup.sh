@@ -21,6 +21,7 @@ echo "Setting up the simulation environment of the autonomous drone hunter proje
 # fi
 
 
+source $HOME/.bashrc
 
 # Path to the PX4 Frimware folder. It assumes that ROS is installed properly,
 #  and the PX4 is in ROS_PACKAGE_PATH
