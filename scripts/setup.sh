@@ -38,13 +38,13 @@ else
 	echo
 fi
 
-# Copy the 10017_psu_drone PX4 startup file
+# Copy the 6012_psu_iris_depth_cam PX4 startup file
 if [ ! -d "${PX4_PATH}" ]; then
     echo "${RED} [ERROR] ${PX4_PATH} does not exist. It seems the PX4 Firmware is not installed in the Home directory. Exiting the setup.${NC}"
     exit 10
 else
-    cp $HOME/catkin_ws/src/drone_hunter_sim/config/10017_psu_drone ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix
-    echo "10017_psu_drone is copied to ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix" && echo
+    cp $HOME/catkin_ws/src/drone_hunter_sim/config/6012_psu_iris_depth_cam ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix
+    echo "6012_psu_iris_depth_cam is copied to ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix" && echo
 fi
 echo " " && echo "Adding drone_hunter_sim/models to GAZEBO_MODEL_PATH..." && echo " "
 

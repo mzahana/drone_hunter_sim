@@ -6,7 +6,7 @@
     <!-- launches Gazebo environment and 2x: MAVROS, PX4 SITL, and spawns vehicle -->
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
-    <arg name="vehicle" default="psu_drone"/>
+    <arg name="vehicle" default="psu_iris_depth_cam"/>
     <arg name="world_name" default="psu_world" />
     <arg name="world_path" default="$(find drone_hunter_sim)/worlds/$(arg world_name).world"/>
 
@@ -54,6 +54,8 @@
             <arg name="mavlink_tcp_port" value="4560"/>
             <arg name="ID" value="$(arg ID)"/>
             <arg name="drone_color" value="Gazebo/DarkGrey"/>
+            <arg name="namespace" value="$(arg ns_0)"/>
+            
         </include>
         <!-- MAVROS -->
         <include file="$(find drone_hunter_sim)/launch/mavros.launch">
@@ -91,6 +93,7 @@
             <arg name="mavlink_tcp_port" value="4561"/>
             <arg name="ID" value="$(arg ID)"/>
             <arg name="drone_color" value="Gazebo/Red"/>
+            <arg name="namespace" value="$(arg ns_1)"/>
         </include>
         <!-- MAVROS -->
         <include file="$(find drone_hunter_sim)/launch/mavros.launch">
@@ -127,6 +130,7 @@
             <arg name="mavlink_tcp_port" value="4562"/>
             <arg name="ID" value="$(arg ID)"/>
             <arg name="drone_color" value="Gazebo/Red"/>
+            <arg name="namespace" value="$(arg ns_2)"/>
         </include>
         <!-- MAVROS -->
         <include file="$(find drone_hunter_sim)/launch/mavros.launch">

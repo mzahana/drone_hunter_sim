@@ -14,6 +14,7 @@ if __name__ == "__main__":
     parser.add_argument('--mavlink_tcp_port', default=4560, help="TCP port for PX4 SITL")
     parser.add_argument('--mavlink_udp_port', default=14560, help="Mavlink UDP port for mavlink access")
     parser.add_argument('--drone_color',type=str, default="Gazebo/DarkGrey", help="Drone body color")
+    parser.add_argument('--camNamespace',type=str, default="", help="Drone namespace")
     parser.add_argument('--serial_enabled', default=0, help="Enable Serial device for HITL")
     parser.add_argument('--serial_device', default="/dev/ttyACM0", help="Serial device for FMU")
     parser.add_argument('--serial_baudrate', default=921600, help="Baudrate of Serial device for FMU")
@@ -38,6 +39,7 @@ if __name__ == "__main__":
          'mavlink_tcp_port': args.mavlink_tcp_port, \
          'mavlink_udp_port': args.mavlink_udp_port, \
          'drone_color': args.drone_color, \
+         'camNamespace': args.camNamespace, \
          'serial_enabled': args.serial_enabled, \
          'serial_device': args.serial_device, \
          'serial_baudrate': args.serial_baudrate, \
