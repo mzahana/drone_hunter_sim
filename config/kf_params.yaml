@@ -4,7 +4,7 @@ print_debug_msg: false
 
 # Diagonal elements of the process covariance matrix Q, for constant acceleration model
 # [x-x, y-y, z-z, vx-vx, vy-vy, vz-vz, ax-ax, ay-ay, az-az]
-q_diag: [5,5,5, 10,10,10, 10, 10, 10]
+q_diag: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1 ,0.1 , 0.1, 0.1]
 
 # Diagonal elements of the process covariance matrix Q, for constant velocity model
 # # [x-x, y-y, z-z, vx-vx, vy-vy, vz-vz]
@@ -12,6 +12,10 @@ q_diag: [5,5,5, 10,10,10, 10, 10, 10]
 
 # Diagonal elements of the process covariance matrix Q, for constant velocity or acceleration models
 r_diag: [0.01, 0.01, 0.01]
+
+sigma_a: 1
+sigma_p: 1
+sigma_v: 1
 
 # Provide estimate w.r.t this frame
 tracking_frame: 'interceptor_odom'
