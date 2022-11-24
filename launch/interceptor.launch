@@ -20,7 +20,7 @@
   <include file="$(find trajectory_prediction)/launch/predictor.launch">
     <arg name="ns" value="interceptor"/>
     <arg name="target_odom_topic" value="/target/odom"/>
-    <arg name="kf_topic" value="kf/tracks"/>
+    <arg name="kf_topic" value="kf/good_tracks"/>
     <arg name="pose_array_topic" default="d"/>
   </include>
 
