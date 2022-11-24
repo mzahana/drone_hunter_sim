@@ -13,7 +13,7 @@ q_diag: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1 ,0.1 , 0.1, 0.1]
 # Diagonal elements of the process covariance matrix Q, for constant velocity or acceleration models
 r_diag: [0.01, 0.01, 0.01]
 
-sigma_a: 1
+sigma_a: 10
 sigma_p: 1
 sigma_v: 1
 
