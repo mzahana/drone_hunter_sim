@@ -13,7 +13,7 @@ q_diag: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1 ,0.1 , 0.1, 0.1]
 # q_diag: [5,5,5,10,10,10]
 
 # Diagonal elements of the process covariance matrix Q, for constant velocity or acceleration models
-r_diag: [0.5, 0.5, 0.1]
+r_diag: [1.0, 1.0, 1.0]
 
 # Standard deviation of the random acceleration variable.
 # Used in computing Q matrix
