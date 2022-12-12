@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /Target predicted path1
         - /Interceptor Odom1/Shape1
       Splitter Ratio: 0.5735294222831726
     Tree Height: 371
@@ -114,7 +115,7 @@ Visualization Manager:
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
-      Color: 255; 255; 0
+      Color: 255; 0; 255
       Enabled: true
       Head Diameter: 0.30000001192092896
       Head Length: 0.20000000298023224
