@@ -20,6 +20,18 @@ if [ -z "$GIT_TOKEN" ]; then
 	exit 10
 fi
 
+if [ -z "$CATKIN_WS" ]; then
+	CATKIN_WS=/root/shared_volume/catkin_ws
+else
+    echo "path to catkin_ws is defined at $CATKIN_WS" && echo
+fi
+
+if [ -z "$PX4_ROOT" ]; then
+	CATKIN_WS=/root/shared_volume
+else
+    echo "path to catkin_ws is defined at $CATKIN_WS" && echo
+fi
+
 DOCKER_REPO="mzahana/px4-ros-noetic-cuda11.4.2:latest"
 CONTAINER_NAME="hunter_sim_noetic"
 WORKSPACE_DIR=~/${CONTAINER_NAME}_shared_volume
@@ -106,10 +118,12 @@ else
 
     # The following command clones drone_hunter_sim. It gets executed the first time the container is run
     CMD="export GIT_TOKEN=${GIT_TOKEN} && export GIT_USER=${GIT_USER} && \
+        export CATKIN_WS=$CATKIN_WS && \
+        export PX4_ROOT=$PX4_ROOT && \
         source /opt/ros/noetic/setup.bash  && source /root/.bashrc &&\
     	export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:\$HOME/PX4-Autopilot &&\
-        if [ ! -d "\$HOME/catkin_ws/src/drone_hunter_sim" ]; then
-        cd \${HOME}/catkin_ws/src
+        if [ ! -d "$CATKIN_WS/src/drone_hunter_sim" ]; then
+        cd $CATKIN_WS/src
         git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/mzahana/drone_hunter_sim.git
         cd drone_hunter_sim && git checkout noetic
         cd scripts && ./setup.sh

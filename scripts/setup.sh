@@ -56,14 +56,19 @@ sudo apt-get update \
 
 pip3 install -U osrf-pycommon
 
+if [ -z "$CATKIN_WS" ]; then
+	CATKIN_WS=$HOME/catkin_ws
+	echo "path to catkin_ws is defined at $CATKIN_WS" && echo    
+fi
+
 #
 # Create catkin_ws at $HOME
 #
-if [ ! -d "$HOME/catkin_ws" ]; then
-    mkdir -p $HOME/catkin_ws/src
+if [ ! -d "$CATKIN_WS" ]; then
+    mkdir -p $CATKIN_WS/src
 fi
 
-cd $HOME/catkin_ws \
+cd $CATKIN_WS \
     && catkin init \
     && catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release \
     && catkin config --merge-devel \
@@ -73,8 +78,9 @@ cd $HOME/catkin_ws \
 #
 # source catkin_ws inside .bashrc
 #
-sed -i '/source ~\/catkin_ws\/devel\/setup.bash/d' $HOME/.bashrc
-sed -i 's+source /opt/ros/noetic/setup.bash+source /opt/ros/noetic/setup.bash\nsource ~/catkin_ws/devel/setup.bash+g' $HOME/.bashrc
+echo "source $CATKIN_WS/devel/setup.bash" >> $HOME/.bashrc
+echo "source /opt/ros/noetic/setup.bash" >> $HOME/.bashrc
+
 
 #
 # Create $HOME/src for cloning and installing somce development pkgs
@@ -85,17 +91,22 @@ if [ ! -d "$HOME/src" ]; then
 #
 # Setting up PX4 Firmware, v1.11.2
 #
-if [ ! -d "${HOME}/PX4-Autopilot" ]; then
-    cd ${HOME} && git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+if [ -z "$PX4_ROOT" ]; then
+	PX4_ROOT=$HOME
+	echo "path to PX4 root is defined at $PX4_ROOT" && echo    
+fi
+
+if [ ! -d "${PX4_ROOT}/PX4-Autopilot" ]; then
+    cd ${PX4_ROOT} && git clone https://github.com/PX4/PX4-Autopilot.git --recursive
 else
     echo "PX4-Autopilot directory already exists. Just pulling latest upstream...." \
-    && cd ${HOME}/PX4-Autopilot \
+    && cd ${PX4_ROOT}/PX4-Autopilot \
     && git pull
 fi
 #
 # Build PX4
 #
-cd ${HOME}/PX4-Autopilot \
+cd ${PX4_ROOT}/PX4-Autopilot \
     && git checkout v1.11.2  \
     && git submodule update --recursive \
     && make clean && make distclean \
@@ -116,9 +127,9 @@ sudo apt install -y python-is-python3
 #
 # Export neccessary env variables
 #
-echo "source ~/PX4-Autopilot/Tools/setup_gazebo.bash ~/PX4-Autopilot ~/PX4-Autopilot/build/px4_sitl_default" >> ${HOME}/.bashrc
-echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:~/PX4-Autopilot" >> ${HOME}/.bashrc
-echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:~/PX4-Autopilot/Tools/sitl_gazebo" >> ${HOME}/.bashrc
+echo "source $PX4_ROOT/PX4-Autopilot/Tools/setup_gazebo.bash $PX4_ROOT/PX4-Autopilot $PX4_ROOT/PX4-Autopilot/build/px4_sitl_default" >> ${HOME}/.bashrc
+echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:$PX4_ROOT/PX4-Autopilot" >> ${HOME}/.bashrc
+echo "export ROS_PACKAGE_PATH=\$ROS_PACKAGE_PATH:$PX4_ROOT/PX4-Autopilot/Tools/sitl_gazebo" >> ${HOME}/.bashrc
 echo "export GAZEBO_PLUGIN_PATH=\$GAZEBO_PLUGIN_PATH:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins" >> ${HOME}/.bashrc
 
 source $HOME/.bashrc
@@ -128,9 +139,9 @@ source $HOME/.bashrc
 PX4_PATH=$(rospack find px4)
 if [ -z "${PX4_PATH}" ]; then
 	echo
-	echo "Could not find PX4 Firmware folder"
-	echo "Setting PX4_PATH to the default PX4_PATH='${HOME}/Firmware'"
-	PX4_PATH="${HOME}/PX4-Autopilot"
+	echo "Could not find PX4-Autopilot directory"
+	echo "Setting PX4_PATH to the default PX4_PATH='${PX4_ROOT}/PX4-Autopilot'"
+	PX4_PATH="${PX4_ROOT}/PX4-Autopilot"
 	echo "PX4_PATH=${PX4_PATH}"
 	echo
 else
@@ -143,43 +154,44 @@ if [ ! -d "${PX4_PATH}" ]; then
     echo "${RED} [ERROR] ${PX4_PATH} does not exist. It seems the PX4 Firmware is not installed in the Home directory. Exiting the setup.${NC}"
     exit 10
 else
-    cp $HOME/catkin_ws/src/drone_hunter_sim/config/6012_psu_iris_depth_cam ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix
+    cp $CATKIN_WS/src/drone_hunter_sim/config/6012_psu_iris_depth_cam ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix
     echo "6012_psu_iris_depth_cam is copied to ${PX4_PATH}/ROMFS/px4fmu_common/init.d-posix" && echo
 fi
 echo " " && echo "Adding drone_hunter_sim/models to GAZEBO_MODEL_PATH..." && echo " "
 
-grep -xF 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$HOME/catkin_ws/src/drone_hunter_sim/models' ${HOME}/.bashrc || echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$HOME/catkin_ws/src/drone_hunter_sim/models" >> ${HOME}/.bashrc
+echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:$CATKIN_WS/src/drone_hunter_sim/models" >> ${HOME}/.bashrc
+#grep -xF 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$CATKIN_WS/src/drone_hunter_sim/models' ${HOME}/.bashrc || echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:\$HOME/catkin_ws/src/drone_hunter_sim/models" >> ${HOME}/.bashrc
 
 # clean catkin_ws
-cd $HOME/catkin_ws && catkin clean -y
+cd $CATKIN_WS && catkin clean -y
 
 # Clone packages
 PKGS="drone_hunter_perception mpc_tracker trajectory_prediction custom_trajectory_msgs"
 for p in $PKGS; do
-    if [ ! -d "$HOME/catkin_ws/src/$p" ]; then
+    if [ ! -d "$CATKIN_WS/src/$p" ]; then
         echo "Didn't find $p. Cloning it..."
-        cd $HOME/catkin_ws/src
+        cd $CATKIN_WS/src
         git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/mzahana/$p
     else
         echo "$p is found. Pulling latest code..."
-        cd $HOME/catkin_ws/src/$p && git pull
+        cd $CATKIN_WS/src/$p && git pull
     fi
 done
 
-cd $HOME/catkin_ws/src
+cd $CATKIN_WS/src
 git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/mzahana/multi_target_kf.git
-cd $HOME/catkin_ws/src/multi_target_kf && git checkout const_vel_model
+cd $CATKIN_WS/src/multi_target_kf && git checkout const_vel_model
 
 # Setup requirements for perception package
-cd ${HOME}/catkin_ws/src/drone_hunter_perception/scripts && ./setup.sh
+cd $CATKIN_WS/src/drone_hunter_perception/scripts && ./setup.sh
 
 # Setup requirements for control package
-cd ${HOME}/catkin_ws/src/mpc_tracker
-cd ${HOME}/catkin_ws/src/mpc_tracker/scripts && ./setup.sh
+cd $CATKIN_WS/src/mpc_tracker
+cd $CATKIN_WS/src/mpc_tracker/scripts && ./setup.sh
 cd 
 
 # Build catkin_ws
-cd ${HOME}/catkin_ws && catkin build
+cd $CATKIN_WS && catkin build
 
 echo && echo "Execute this command:   source \$HOME/.bashrc" && echo " "
 
