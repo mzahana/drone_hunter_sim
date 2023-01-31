@@ -78,8 +78,9 @@ cd $CATKIN_WS \
 #
 # source catkin_ws inside .bashrc
 #
-echo "source $CATKIN_WS/devel/setup.bash" >> $HOME/.bashrc
+
 echo "source /opt/ros/noetic/setup.bash" >> $HOME/.bashrc
+echo "source $CATKIN_WS/devel/setup.bash" >> $HOME/.bashrc
 
 
 #
@@ -192,6 +193,9 @@ cd
 
 # Build catkin_ws
 cd $CATKIN_WS && catkin build
+
+# Alias for VS code
+echo "alias code_ws='code --no-sandbox --user-data-dir /root $CATKIN_WS/src'"
 
 echo && echo "Execute this command:   source \$HOME/.bashrc" && echo " "
 
