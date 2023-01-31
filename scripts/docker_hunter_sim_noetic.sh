@@ -98,7 +98,10 @@ xhost +local:root
  
 echo "Starting Container: ${CONTAINER_NAME} with REPO: $DOCKER_REPO"
 
-CMD="/bin/bash"
+CMD="export GIT_TOKEN=${GIT_TOKEN} && export GIT_USER=${GIT_USER} && \
+        export CATKIN_WS=$CATKIN_WS && \
+        export PX4_ROOT=$PX4_ROOT && \
+        export OSQP_SRC=/root/shared_volume/src && /bin/bash"
 if [ "$2" != "" ]; then
     CMD=$2
 fi
@@ -121,6 +124,7 @@ else
         export GIT_TOKEN=${GIT_TOKEN} && export GIT_USER=${GIT_USER} && \
         export CATKIN_WS=$CATKIN_WS && \
         export PX4_ROOT=$PX4_ROOT && \
+        export OSQP_SRC=/root/shared_volume/src &&\
         if [ ! -d "$CATKIN_WS/src" ]; then
         mkdir -p $CATKIN_WS/src
         fi && \
