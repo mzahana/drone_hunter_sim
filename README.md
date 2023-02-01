@@ -9,7 +9,7 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   ```sh
   export GIT_TOKEN=put_the_token_here
   ```
-  You can also add it to your `$HOME/.bashrc` so you don't have to `export` is every time you opent a new terminal window.
+  You can also add it to your `$HOME/.bashrc` so you don't have to `export` it every time you ope a new terminal window.
   ```bash
   echo "export GIT_TOKEN=put_the_token_here" >> $HOME/.bashrc && source $HOME/.bashrc
   ```
@@ -17,7 +17,7 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   ```sh
   export GIT_USER=your_user_id
   ```
-  You can also add it to your `$HOME/.bashrc` so you don't have to `export` is every time you opent a new terminal window.
+  You can also add it to your `$HOME/.bashrc` so you don't have to `export` it every time you open a new terminal window.
   ```bash
   echo "export GIT_USER=your_user_id" >> $HOME/.bashrc && source $HOME/.bashrc
   ```
@@ -26,7 +26,7 @@ This package is for simulating the autonomous drone hunter project in Gazebo+ROS
   ```sh
   ./docker_run_drone_hunter_sim.sh
   ```
-* This should get you in the simulation docker container, after automatically installing all the neccessary software in the shared folder located in your `$HOME` directory. The shared folder name `hunter_sim_noetic_shared_volume`, and all the ROS pakckages are located there. This is shared between the docker container and your PC file system
+* This will take time for the first time as it will download some docker images and do some installations. Eventually, it should get you in the simulation docker container, after automatically installing all the neccessary software in the shared folder located in your `$HOME` directory. The shared folder name `hunter_sim_noetic_shared_volume`, and all the ROS pakckages are located there. This is shared between the docker container and your PC file system
 
 **NOTE** If you would like to run VS Code inside the container, there is an alias that is already created for you during the setup. You can just exeute the following command inside the container `code_ws`
 
