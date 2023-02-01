@@ -192,7 +192,7 @@ cd $CATKIN_WS/src/mpc_tracker/scripts && ./setup.sh
 cd 
 
 # Build catkin_ws
-cd $CATKIN_WS && catkin build
+cd $CATKIN_WS && catkin build drone_hunter_sim
 
 # Alias for VS code
 echo "alias code_ws='code --no-sandbox --user-data-dir /root $CATKIN_WS/src'" >> $HOME/.bashrc
