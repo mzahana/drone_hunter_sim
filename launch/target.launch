@@ -10,19 +10,19 @@
           <param name="mavname" type="string" value="$(arg vehicle)" />
           <param name="ctrl_mode" value="$(arg command_input)" />
           <param name="enable_sim" value="$(arg gazebo_simulation)" />
-          <param name="max_acc" value="3.0"/>
+          <param name="max_acc" value="20.0"/>
           <param name="attctrl_constant" value="0.3"/>
           <param name="normalizedthrust_constant" value="0.06"/>
           <param name="normalizedthrust_offset" value="0.1"/>
           <param name="Kp_x" value="5.0"/>
           <param name="Kp_y" value="5.0"/>
           <param name="Kp_z" value="20.0"/>
-          <param name="Kv_x" value="3.0"/>
-          <param name="Kv_y" value="3.0"/>
+          <param name="Kv_x" value="5.0"/>
+          <param name="Kv_y" value="5.0"/>
           <param name="Kv_z" value="10.0"/>
           <param name="init_pos_x" value="0.0"/>
           <param name="init_pos_y" value="0.0"/>
-          <param name="init_pos_z" value="3.0"/>
+          <param name="init_pos_z" value="2.0"/>
       </node>
 
 
@@ -39,7 +39,7 @@
 
       <node pkg="trajectory_publisher" type="trajectory_publisher" name="trajectory_publisher" output="screen">
         <param name="trajectory_type" value="1" /> 
-        <param name="shape_omega" value="1.5" />
+        <param name="shape_omega" value="1.2" />
         <param name="initpos_z" value="2.0" />
         <param name="reference_type" value="2" />
       </node>
@@ -52,15 +52,15 @@
           <param name="mavname" type="string" value="$(arg vehicle)" />
           <param name="ctrl_mode" value="$(arg command_input)" />
           <param name="enable_sim" value="$(arg gazebo_simulation)" />
-          <param name="max_acc" value="3.0"/>
-          <param name="attctrl_constant" value="0.3"/>
+          <param name="max_acc" value="20.0"/>
+          <param name="attctrl_constant" value="0.1"/>
           <param name="normalizedthrust_constant" value="0.06"/>
           <param name="normalizedthrust_offset" value="0.1"/>
           <param name="Kp_x" value="5.0"/>
           <param name="Kp_y" value="5.0"/>
           <param name="Kp_z" value="20.0"/>
-          <param name="Kv_x" value="3.0"/>
-          <param name="Kv_y" value="3.0"/>
+          <param name="Kv_x" value="2.0"/>
+          <param name="Kv_y" value="2.0"/>
           <param name="Kv_z" value="10.0"/>
           <param name="init_pos_x" value="0.0"/>
           <param name="init_pos_y" value="0.0"/>
@@ -80,8 +80,8 @@
       <!-- <node name="trajectory_sampler" pkg="mav_trajectory_generation_ros" type="trajectory_sampler_node" output="screen" /> -->
 
       <node pkg="trajectory_publisher" type="trajectory_publisher" name="trajectory_publisher" output="screen">
-        <param name="trajectory_type" value="1" /> 
-        <param name="shape_omega" value="1.5" />
+        <param name="trajectory_type" value="2" /> 
+        <param name="shape_omega" value="1.2" />
         <param name="initpos_z" value="2.0" />
         <param name="reference_type" value="2" />
       </node>
