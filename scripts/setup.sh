@@ -181,7 +181,6 @@ done
 
 cd $CATKIN_WS/src
 git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/mzahana/multi_target_kf.git
-cd $CATKIN_WS/src/multi_target_kf && git checkout const_vel_model
 
 # Setup requirements for perception package
 cd $CATKIN_WS/src/drone_hunter_perception/scripts && ./setup.sh
